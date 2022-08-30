@@ -9,8 +9,8 @@ $(document).keypress(function () {
         $('#level-title').text(`Level ${level}`)
         nextSequence()
         started = true
-    } else {
-        checkAnswer(userClickedPattern.length - 1)
+    // } else {
+    //     checkAnswer(userClickedPattern.length - 1)
     }
 })
 
@@ -19,6 +19,9 @@ $('.btn').click(function () {
     userClickedPattern.push(userChosenColor)
     playSound(userChosenColor)
     animatePress(userChosenColor)
+    if (gamePattern.length === userClickedPattern.length) {
+        checkAnswer(userClickedPattern)
+    }
 })
 
 // To check if logic is working here
@@ -29,21 +32,19 @@ function nextSequence() {
     let randomNumber = Math.floor(Math.random() * 4)
     let randomChosenColor = buttonColours[randomNumber]
     gamePattern.push(randomChosenColor)
-    playSound(randomChosenColor)
-    animatePress(randomChosenColor)
-}
+    console.log(gamePattern);
+    playSound(gamePattern)
+    animatePress(gamePattern)
+    }
+
 
 // To check if logic is working here
 function checkAnswer(currentLevel) {
-    if (gamePattern[currentLevel] === userClickedPattern[currentLevel]) {
-        console.log('Success');
-        if (userClickedPattern.length === gamePattern.length) {
-            setTimeout(function() {
-                nextSequence()
-            }, 1000)
-        }
+    if (currentLevel.length === gamePattern.length) {
+        setTimeout(function() {
+            nextSequence()
+        }, 1000)
     } else {
-        console.log('Wrong');
         playSound('wrong')
         $(document.body).addClass('game-over')
         setTimeout(function() {
